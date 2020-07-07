@@ -1,11 +1,14 @@
 ---
 extends: default
-
+ignore: |
+   .github
 rules:
   line-length:
     max: 120
     level: warning
-
-ignore: |
-  .github/stale.yml
-  .travis.yml
+  truthy:
+    allowed-values:
+      - 'true'
+      - 'false'
+      - 'yes'
+      - 'no'

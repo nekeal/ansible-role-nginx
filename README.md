@@ -1,6 +1,6 @@
 # Ansible Role: Nginx
 
-[![CI](https://github.com/geerlingguy/ansible-role-nginx/workflows/CI/badge.svg?event=push)](https://github.com/geerlingguy/ansible-role-nginx/actions?query=workflow%3ACI)
+[![CI](https://github.com/nekeal/ansible-role-nginx/workflows/CI/badge.svg?event=push)](https://github.com/nekeal/ansible-role-nginx/actions?query=workflow%3ACI)
 
 **Note:** Please consider using the official [NGINX Ansible role](https://github.com/nginxinc/ansible-role-nginx) from NGINX, Inc.
 
@@ -14,6 +14,7 @@ None.
 
 ## Role Variables
 
+
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
 
@@ -21,47 +22,45 @@ Available variables are listed below, along with default values (see `defaults/m
 
 Whether or not to listen on IPv6 (applied to all vhosts managed by this role).
 
+    nginx_selfsigned_certificate_directory: /etc/nginx/ssl
+    nginx_selfsigned_certificate_privkey: "{{ nginx_selfsigned_certificate_directory }}/privkey.pem"
+    nginx_selfsigned_certificate_fullchain: "{{ nginx_selfsigned_certificate_directory }}/fullchain.pem"
+    nginx_selfsigned_certificate_csr: "{{ nginx_selfsigned_certificate_directory }}/cert.csr"
+
+Variables which define where selfsigned certificate should be created. It will be used in `catchall-vhost` and as a replacement for missing certificates in `nginx-vhost` config.
+
+
     nginx_vhosts: []
 
-A list of vhost definitions (server blocks) for Nginx virtual hosts. Each entry will create a separate config file named by `server_name`. If left empty, you will need to supply your own virtual host configuration. See the commented example in `defaults/main.yml` for available server options. If you have a large number of customizations required for your server definition(s), you're likely better off managing the vhost configuration file yourself, leaving this variable set to `[]`.
+A list of vhost definitions (server blocks) for Nginx virtual hosts. Each entry will create a separate config file named by `name`. If left empty, you will need to supply your own virtual host configuration. See the commented example in `defaults/main.yml` for available server options. If you have a large number of customizations required for your server definition(s), you're likely better off managing the vhost configuration file yourself, leaving this variable set to `[]`. As I mostly code in Django I've created `django-vhost.j2` template with ability to extend it with snippets mechanism.
 
     nginx_vhosts:
-      - listen: "443 ssl http2"
-        server_name: "example.com"
-        server_name_redirect: "www.example.com"
-        root: "/var/www/example.com"
-        index: "index.php index.html index.htm"
-        error_page: ""
-        access_log: ""
-        error_log: ""
-        state: "present"
-        template: "{{ nginx_vhost_template }}"
-        filename: "example.com.conf"
-        extra_parameters: |
-          location ~ \.php$ {
-              fastcgi_split_path_info ^(.+\.php)(/.+)$;
-              fastcgi_pass unix:/var/run/php5-fpm.sock;
-              fastcgi_index index.php;
-              fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-              include fastcgi_params;
-          }
-          ssl_certificate     /etc/ssl/certs/ssl-cert-snakeoil.pem;
-          ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
-          ssl_protocols       TLSv1.1 TLSv1.2;
-          ssl_ciphers         HIGH:!aNULL:!MD5;
+      - name: localhost-django
+        server_names:
+          - "localhost"
+        upstreams:
+          - name: local
+            server: localhost:8000
+        template: django-vhost.j2
+        extra_static_roots:
+          - location: "/www/"
+            root: /var/
+        snippets:
+          - location: "~* /static/(.*\\.)(js|css)"
+            expiries: 365d
+            alias: "/var/www/static/$1$2"
+            template: cache.j2
+          - location: "/"
+            upstream: "local"
+            template: "proxy.j2"
+        enable_https: true
+        static_root: /var/www/static/
+        media_root: /var/www/media/
+        certificate: /etc/letsencrypt/live/localhost/fullchain.pem
+        private_key: /etc/letsencrypt/live/localhost/privkey.pem
 
-An example of a fully-populated nginx_vhosts entry, using a `|` to declare a block of syntax for the `extra_parameters`.
+In this example if there is missing certificate under above path it will be copied from `nginx_selfsigned_certificate_directory`. It will ensure that nginx will start properly but you should propably provide valid certificate by yourself.
 
-Please take note of the indentation in the above block. The first line should be a normal 2-space indent. All other lines should be indented normally relative to that line. In the generated file, the entire block will be 4-space indented. This style will ensure the config file is indented correctly.
-
-      - listen: "80"
-        server_name: "example.com www.example.com"
-        return: "301 https://example.com$request_uri"
-        filename: "example.com.80.conf"
-
-An example of a secondary vhost which will redirect to the one shown above.
-
-*Note: The `filename` defaults to the first domain in `server_name`, if you have two vhosts with the same domain, eg. a redirect, you need to manually set the `filename` so the second one doesn't override the first one*
 
     nginx_remove_default_vhost: false
 
@@ -166,6 +165,7 @@ If you can't customize via variables because an option isn't exposed, you can ov
 
 ```yaml
 nginx_conf_template: "nginx.conf.j2"
+nginx_catchall_template: "default-catchall.j2"
 nginx_vhost_template: "vhost.j2"
 ```
 
@@ -194,10 +194,10 @@ Set the `nginx_conf_template` to point to a template file in your playbook direc
 nginx_conf_template: "{{ playbook_dir }}/templates/nginx.conf.j2"
 ```
 
-Create the child template in the path you configured above and extend `geerlingguy.nginx` template file relative to your `playbook.yml`.
+Create the child template in the path you configured above and extend `nekeal.nginx` template file relative to your `playbook.yml`.
 
 ```
-{% extends 'roles/geerlingguy.nginx/templates/nginx.conf.j2' %}
+{% extends 'roles/nekeal.nginx/templates/nginx.conf.j2' %}
 
 {% block http_gzip %}
     gzip on;
@@ -235,7 +235,7 @@ None.
 
     - hosts: server
       roles:
-        - { role: geerlingguy.nginx }
+        - { role: nekeal.nginx }
 
 ## License
 
