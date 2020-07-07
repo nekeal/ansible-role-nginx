@@ -16,7 +16,18 @@ nginx_service_state: started
 nginx_service_enabled: true
 
 nginx_conf_template: "nginx.conf.j2"
-nginx_vhost_template: "vhost.j2"
+
+nginx_selfsigned_certificate_directory: /etc/nginx/ssl
+nginx_selfsigned_certificate_privkey: "{{ nginx_selfsigned_certificate_directory }}/privkey.pem"
+nginx_selfsigned_certificate_fullchain: "{{ nginx_selfsigned_certificate_directory }}/fullchain.pem"
+nginx_selfsigned_certificate_csr: "{{ nginx_selfsigned_certificate_directory }}/cert.csr"
+
+nginx_catchall_template: default-catchall.j2
+nginx_catchall_vhost_name: default.conf
+nginx_catchall_ssl_directory: /etc/nginx/ssl
+nginx_catchall_privkey: "{{ nginx_catchall_ssl_directory }}/privkey.pem"
+nginx_catchall_fullchain: "{{ nginx_catchall_ssl_directory }}/fullchain.pem"
+nginx_catchall_csr: "{{ nginx_catchall_ssl_directory }}/cert.csr"
 
 nginx_worker_processes: >-
   "{{ ansible_processor_vcpus | default(ansible_processor_count) }}"
@@ -57,13 +68,18 @@ nginx_extra_http_options: ""
 #      proxy_set_header   Host $http_host;
 
 nginx_remove_default_vhost: false
+nginx_vhost_filename_suffix: '.conf'
+nginx_vhost_default_listen_port: 80
+nginx_vhost_default_enable_https: true
+nginx_vhost_default_force_https: true
+
 nginx_vhosts: []
 # Example vhost below, showing all available options:
 # - listen: "80" # default: "80"
 #   server_name: "example.com" # default: N/A
 #   root: "/var/www/example.com" # default: N/A
 #   index: "index.html index.htm" # default: "index.html index.htm"
-#   filename: "example.com.conf" # Can be used to set the vhost filename.
+#   name: "example.com" # Can be used to set the vhost filename.
 #
 #   # Properties that are only added if defined:
 #   server_name_redirect: "www.example.com" # default: N/A
@@ -83,6 +99,12 @@ nginx_upstreams: []
 #     "srv2.example.com weight=3",
 #     "srv3.example.com"
 #   }
+
+# Configuration for config snippets
+nginx_proxy_set_forwarded_host_default: true
+nginx_proxy_set_host_default: true
+nginx_proxy_set_real_ip_default: true
+nginx_proxy_set_forwarded_proto_default: true
 
 nginx_log_format: |-
   '$remote_addr - $remote_user [$time_local] "$request" '
