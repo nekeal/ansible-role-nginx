@@ -1,6 +1,6 @@
 # Ansible Role: Nginx
 
-[![Build Status](https://travis-ci.org/geerlingguy/ansible-role-nginx.svg?branch=master)](https://travis-ci.org/geerlingguy/ansible-role-nginx)
+[![Build Status]https://travis-ci.com/nekeal/ansible-role-nginx.svg?branch=master)](https://travis-ci.com/github/nekeal/ansible-role-nginx)
 
 **Note:** Please consider using the official [NGINX Ansible role](https://github.com/nginxinc/ansible-role-nginx) from NGINX, Inc.
 
@@ -31,7 +31,7 @@ A list of vhost definitions (server blocks) for Nginx virtual hosts. Each entry 
         error_log: ""
         state: "present"
         template: "{{ nginx_vhost_template }}"
-        filename: "example.com.conf"
+        name: "example.com"
         extra_parameters: |
           location ~ \.php$ {
               fastcgi_split_path_info ^(.+\.php)(/.+)$;
