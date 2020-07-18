@@ -11,8 +11,8 @@ server {
     {% endif %}
     server_name {% for server_name in item.server_names %}{{ server_name }} {% endfor %};
 
-    access_log /var/log/nginx/{{ item.access_log | default(item.filename) }}.access.log;
-    error_log /var/log/nginx/{{ item.error_log | default(item.filename) }}.error.log;
+    access_log /var/log/nginx/{{ item.access_log | default(item.name) }}.access.log;
+    error_log /var/log/nginx/{{ item.error_log | default(item.name) }}.error.log;
 
     {% if item.enable_https | default(true) %}
     if ($scheme = http) {
@@ -49,16 +49,8 @@ server {
     {% endfor %}
     {% for config in item.extra_snippets %}
         {% filter indent(4) %}
-            {% include config.template %}
+            {% include 'snippets/'+config.template %}
         {% endfilter %}
 
     {% endfor %}
-
-    location / {
-        proxy_pass http://{{ item.upstream.name }};
-        proxy_set_header X-Forwarded-Host $server_name;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
 }
