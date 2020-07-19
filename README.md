@@ -1,6 +1,6 @@
 # Ansible Role: Nginx
 
-[![Build Status]https://travis-ci.com/nekeal/ansible-role-nginx.svg?branch=master)](https://travis-ci.com/github/nekeal/ansible-role-nginx)
+[![Build Status](https://travis-ci.com/nekeal/ansible-role-nginx.svg?branch=master)](https://travis-ci.com/nekeal/ansible-role-nginx)
 
 **Note:** Please consider using the official [NGINX Ansible role](https://github.com/nginxinc/ansible-role-nginx) from NGINX, Inc.
 

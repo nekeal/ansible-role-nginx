@@ -6,7 +6,7 @@ upstream {{ item.upstream.name }} {
 
 server {
     listen 80;
-    {% if item.enable_https %}
+    {% if item.enable_https | default(false) %}
     listen 443 ssl {% if item.enable_http2 | default(false) %}http2{% endif %};
     {% endif %}
     server_name {% for server_name in item.server_names %}{{ server_name }} {% endfor %};
@@ -14,7 +14,7 @@ server {
     access_log /var/log/nginx/{{ item.access_log | default(item.name) }}.access.log;
     error_log /var/log/nginx/{{ item.error_log | default(item.name) }}.error.log;
 
-    {% if item.enable_https | default(true) %}
+    {% if item.force_https | default(true) %}
     if ($scheme = http) {
         return 301 https://$host$request_uri;
     }
@@ -25,29 +25,31 @@ server {
     ssl_trusted_certificate {{ item.certificate }};
 
     {% if item.error_page is defined %}
-
     error_page {{ item.error_page }};
-
     {% endif %}
 
-    {% if item.static_root %}
+    {% if item.static_root is defined %}
     location /static/ {
         alias {{ item.static_root }};
     }
     {% endif %}
 
-    {% if item.media_root %}
+    {% if item.media_root is defined %}
     location /media/ {
         alias {{ item.media_root }};
     }
     {% endif %}
 
-    {% for location in item.additional_locations | default([]) %}
-    location {{ location.path }} {
+    {% for location in item.extra_static_roots | default([]) %}
+    location {{ location.location }} {
+        {% if location.alias is defined %}
         alias {{ location.alias }};
+        {% elif  location.root is defined %}
+        root {{ location.root }};
+        {% endif %}
     }
     {% endfor %}
-    {% for config in item.extra_snippets %}
+    {% for config in item.snippets %}
         {% filter indent(4) %}
             {% include 'snippets/'+config.template %}
         {% endfilter %}
