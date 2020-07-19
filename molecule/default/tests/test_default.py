@@ -12,7 +12,8 @@ def test_is_postgresql_runnnig_and_enabled(host):
 ('static/static.html', b'static'),
 ('static/cache.js', b'static'),
 ('static/cache.css', b'static'),
-('media/media.html', b'media')
+('media/media.html', b'media'),
+('www/static/static.html', b'static'),
 ))
 def test_statics_location_is_accessible(host, path, content):
     response = requests.get(f'https://localhost:8080/{path}',

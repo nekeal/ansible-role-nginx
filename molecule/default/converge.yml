@@ -10,9 +10,9 @@
       - name: localhost-django
         server_names:
           - "localhost"
-        upstream:
-          name: local
-          server: localhost:8000
+        upstreams:
+          - name: local
+            server: localhost:8000
         template: django-vhost.j2
         extra_static_roots:
           - location: '/www/'

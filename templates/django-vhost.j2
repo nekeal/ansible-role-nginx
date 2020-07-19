@@ -1,8 +1,13 @@
 # {{ ansible_managed }}
 
-upstream {{ item.upstream.name }} {
-    server {{ item.upstream.server }};
+{% for upstream in item.upstreams | default([]) %}
+upstream {{ upstream.name }} {
+server {{ upstream.server }};
+{% if upstream.extra_parameters is defined %}
+    {{ upstream.extra_parameters | indent(4) }}
+{% endif %}
 }
+{% endfor %}
 
 server {
     listen 80;
