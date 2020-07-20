@@ -48,7 +48,7 @@
 
 - name: Add managed vhost config files
   template:
-    src: "{{ item.template }}"
+    src: "{{ item.template | default(nginx_vhost_template) }}"
     dest: "{{ nginx_vhost_path }}/{{ item.name }}{{ nginx_vhost_filename_suffix }}"
     force: true
     owner: root

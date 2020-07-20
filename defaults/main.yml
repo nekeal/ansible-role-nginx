@@ -16,7 +16,6 @@ nginx_service_state: started
 nginx_service_enabled: true
 
 nginx_conf_template: "nginx.conf.j2"
-nginx_vhost_template: "vhost.j2"
 
 nginx_catchall_template: default-catchall.j2
 nginx_catchall_vhost_name: default.conf
@@ -65,6 +64,10 @@ nginx_extra_http_options: ""
 
 nginx_remove_default_vhost: false
 nginx_vhost_filename_suffix: '.conf'
+nginx_vhost_default_listen_port: 80
+nginx_vhost_default_enable_https: true
+nginx_vhost_default_force_https: true
+nginx
 nginx_vhosts: []
 # Example vhost below, showing all available options:
 # - listen: "80" # default: "80"

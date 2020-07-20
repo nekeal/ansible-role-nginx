@@ -160,6 +160,7 @@ If you can't customize via variables because an option isn't exposed, you can ov
 
 ```yaml
 nginx_conf_template: "nginx.conf.j2"
+nginx_catchall_template: "default-catchall.j2"
 nginx_vhost_template: "vhost.j2"
 ```
 
