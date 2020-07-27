@@ -56,7 +56,7 @@ server {
         {% endif %}
     }
     {% endfor %}
-    {% for config in item.snippets %}
+    {% for config in item.snippets | default([]) %}
         {% filter indent(4) %}
             {% include 'snippets/'+config.template %}
         {% endfilter %}
