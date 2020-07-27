@@ -29,6 +29,9 @@ Whether or not to listen on IPv6 (applied to all vhosts managed by this role).
 
 Variables which define where selfsigned certificate should be created. It will be used in `catchall-vhost` and as a replacement for missing certificates in `nginx-vhost` config.
 
+    nginx_copy_missing_certs: yes
+
+Defines whether role should copy selfsigned certs for vhosts.
 
     nginx_vhosts: []
 

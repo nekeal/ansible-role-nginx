@@ -21,6 +21,7 @@ nginx_selfsigned_certificate_directory: /etc/nginx/ssl
 nginx_selfsigned_certificate_privkey: "{{ nginx_selfsigned_certificate_directory }}/privkey.pem"
 nginx_selfsigned_certificate_fullchain: "{{ nginx_selfsigned_certificate_directory }}/fullchain.pem"
 nginx_selfsigned_certificate_csr: "{{ nginx_selfsigned_certificate_directory }}/cert.csr"
+nginx_copy_missing_certs: yes
 
 nginx_catchall_template: default-catchall.j2
 nginx_catchall_vhost_name: default.conf
