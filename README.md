@@ -24,6 +24,9 @@ Available variables are listed below, along with default values (see `defaults/m
 
 Variables which define where selfsigned certificate should be created. It will be used in `catchall-vhost` and as a replacement for missing certificates in `nginx-vhost` config.
 
+    nginx_copy_missing_certs: yes
+
+Defines whether role should copy selfsigned certs for vhosts.
 
     nginx_vhosts: []
 

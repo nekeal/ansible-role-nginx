@@ -33,6 +33,7 @@
         mode: 0644
         owner: root
       loop: "{{ nginx_vhosts }}"
+      when: nginx_copy_missing_certs
 
     - name: Copy temporary private_key
       copy:
