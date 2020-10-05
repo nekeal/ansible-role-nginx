@@ -68,3 +68,6 @@
     name: nginx
     state: "{{ nginx_service_state }}"
     enabled: "{{ nginx_service_enabled }}"
+
+- name: Flush handlers
+  meta: flush_handlers
