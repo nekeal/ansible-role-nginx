@@ -9,12 +9,15 @@
   notify: restart nginx
   tags:
     - nginx
+    - nginx_catchall_vhost
 
 - name: Ensure nginx_vhost_path exists
   file:
     path: "{{ nginx_vhost_path }}"
     state: directory
   notify: reload nginx
+  tags:
+    - nginx
 
 - name: Create missing selfsigned certificates
   block:
@@ -46,6 +49,7 @@
       loop: "{{ nginx_vhosts }}"
   tags:
     - nginx
+    - nginx_certs
 
 - name: Add managed vhost config files
   template:
