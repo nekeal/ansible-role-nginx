@@ -4,51 +4,50 @@
   include_vars: "{{ ansible_os_family }}.yml"
   tags:
     - nginx
-    - always
 
 - name: Define nginx_user.
   set_fact:
     nginx_user: "{{ __nginx_user }}"
   when: nginx_user is not defined
   tags:
-    - always
+    - nginx
 
 # Setup/install tasks.
 - include_tasks: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
   tags:
-    - always
+    - nginx
 
 - include_tasks: setup-Ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
   tags:
-    - always
+    - nginx
 
 - include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
   tags:
-    - always
+    - nginx
 
 - include_tasks: setup-FreeBSD.yml
   when: ansible_os_family == 'FreeBSD'
   tags:
-    - always
+    - nginx
 
 - include_tasks: setup-OpenBSD.yml
   when: ansible_os_family == 'OpenBSD'
   tags:
-    - always
+    - nginx
 
 - include_tasks: setup-Archlinux.yml
   when: ansible_os_family == 'Archlinux'
   tags:
-    - always
+    - nginx
 
 # Vhost configuration.
 - include_tasks: catchall-vhost.yml
   when: nginx_create_catchall_vhost | default(true) | bool
   tags:
-    - always
+    - nginx
 
 - import_tasks: vhosts.yml
 
@@ -62,6 +61,8 @@
     mode: 0644
   notify:
     - reload nginx
+  tags:
+    - nginx
 
 - name: Ensure nginx service is running as configured.
   service:

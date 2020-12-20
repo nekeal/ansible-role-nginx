@@ -3,14 +3,20 @@
   command: pkg update -f
   environment:
     ASSUME_ALWAYS_YES: "yes"
-  tags: ['skip_ansible_lint']
+  tags:
+    - nginx
+    - skip_ansible_lint
 
 - name: Ensure nginx is installed.
   pkgng:
     name: "{{ nginx_package_name }}"
     state: present
+  tags:
+    - nginx
 
 - name: Create logs directory.
   file:
     path: /var/log/nginx
     state: directory
+  tags:
+    - nginx

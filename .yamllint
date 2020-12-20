@@ -12,5 +12,3 @@ rules:
       - 'false'
       - 'yes'
       - 'no'
-
-      # ['true', 'false', 'yes', 'no']

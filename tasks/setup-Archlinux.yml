@@ -3,3 +3,5 @@
   pacman:
     name: "{{ nginx_package_name }}"
     state: present
+  tags:
+    - nginx
