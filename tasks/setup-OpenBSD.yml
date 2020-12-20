@@ -3,9 +3,13 @@
   openbsd_pkg:
     name: "{{ nginx_package_name }}"
     state: present
+  tags:
+    - nginx
 
 - name: Create logs directory.
   file:
     path: /var/log/nginx
     state: directory
     mode: 0755
+  tags:
+    - nginx
