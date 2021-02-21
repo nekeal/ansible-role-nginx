@@ -2,7 +2,7 @@ ansible
 ansible-lint
 yamllint
 docker==4.4.*
-molecule==3.2.*
+molecule
 molecule[docker]
 pytest==6.2.*
-testinfra==6.0.*
+pytest-testinfra==6.0.*
