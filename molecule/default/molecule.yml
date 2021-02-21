@@ -6,7 +6,7 @@ driver:
 lint: |
   set -e
   yamllint . -c .yamllint
-  ansible-lint -r .
+  ansible-lint
 platforms:
   - name: ${MOLECULE_DISTRIBUTION:-debian10}
     image: "nekeal/${MOLECULE_DISTRIBUTION:-debian10}-ansible-systemd:latest"

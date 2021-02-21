@@ -1,0 +1,15 @@
+{
+    "template": "https://github.com/nekeal/cookiecutter-ansible-role-molecule",
+    "commit": "90b8c72c7cc0e554043b89fd74e42532f656fcd5",
+    "context": {
+        "cookiecutter": {
+            "role_name": "nginx",
+            "author": "nekeal",
+            "description": "asd",
+            "add_github_actions_config": "y",
+            "license": "MIT",
+            "_template": "https://github.com/nekeal/cookiecutter-ansible-role-molecule"
+        }
+    },
+    "directory": null
+}

@@ -15,6 +15,7 @@
   file:
     path: "{{ nginx_vhost_path }}"
     state: directory
+    mode: 0755
   notify: reload nginx
   tags:
     - nginx
