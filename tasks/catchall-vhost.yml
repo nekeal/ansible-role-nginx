@@ -2,6 +2,7 @@
 - name: Create directory for selfsigned catch-all certificates
   file:
     name: "{{ nginx_selfsigned_certificate_directory }}"
+    mode: 0755
     state: directory
   become: yes
   tags:
@@ -43,6 +44,7 @@
   template:
     src: "{{ nginx_catchall_template }}"
     dest: "{{ nginx_vhost_path }}/{{ nginx_catchall_vhost_name }}"
+    mode: 0644
   become: yes
   tags:
     - nginx
