@@ -19,6 +19,11 @@
           - "python{{ '3' if ansible_python.version.major == 3 else '' }}-setuptools"
           - "python{{ '3' if ansible_python.version.major == 3 else '' }}-pip"
 
+    - name: Upgrade pip
+      pip:
+        name: pip
+        state: latest
+
     - name: Install cryptography python library
       pip:
         name: cryptography

@@ -1,8 +1,8 @@
-ansible==2.9.10
-ansible-lint==4.2.0
-docker==4.2.1
-molecule==3.0.4
-pytest==5.4.3
-requests==2.24.0
-testinfra==5.2.1
-yamllint==1.23.0
+ansible
+ansible-lint
+yamllint
+docker==4.4.*
+molecule==3.2.*
+molecule[docker]
+pytest==6.2.*
+testinfra==6.0.*
