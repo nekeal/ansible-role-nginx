@@ -54,7 +54,8 @@
           file: cache.css
         - directory: media
           file: media.html
-    - debug:
+    - name: Debug python version
+      debug:
         var: ansible_python
     - name: Run simple python server
       shell:

@@ -31,7 +31,8 @@
         certificate: /etc/letsencrypt/live/localhost/fullchain.pem
         private_key: /etc/letsencrypt/live/localhost/privkey.pem
   pre_tasks:
-    - debug:
+    - name: Debug python version
+      debug:
         var: ansible_python
   roles:
     - role: nekeal.nginx
