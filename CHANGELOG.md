@@ -1,6 +1,9 @@
 # Changelog
 
 
+## [3.x.x] - Unreleased
+- Added ipv6 support 
+
 ## [3.0.2] - 2020-12-20
 
 ### Added

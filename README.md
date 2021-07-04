@@ -1,6 +1,6 @@
 # Ansible Role: Nginx
 
-[![Build Status](https://travis-ci.com/nekeal/ansible-role-nginx.svg?branch=master)](https://travis-ci.com/nekeal/ansible-role-nginx)
+[![CI](https://github.com/nekeal/ansible-role-nginx/workflows/CI/badge.svg?event=push)](https://github.com/nekeal/ansible-role-nginx/actions?query=workflow%3ACI)
 
 **Note:** Please consider using the official [NGINX Ansible role](https://github.com/nginxinc/ansible-role-nginx) from NGINX, Inc.
 
@@ -16,6 +16,11 @@ None.
 
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
+
+
+    nginx_listen_ipv6: true
+
+Whether or not to listen on IPv6 (applied to all vhosts managed by this role).
 
     nginx_selfsigned_certificate_directory: /etc/nginx/ssl
     nginx_selfsigned_certificate_privkey: "{{ nginx_selfsigned_certificate_directory }}/privkey.pem"
