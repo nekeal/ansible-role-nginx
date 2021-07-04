@@ -34,4 +34,4 @@
     - debug:
         var: ansible_python
   roles:
-    - role: nginx
+    - role: nekeal.nginx
