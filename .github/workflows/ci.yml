@@ -6,13 +6,6 @@ on:
   schedule:
     - cron: "0 3 * * 5"
 
-# env:
-#   ANSIBLE_ROLES_PATH: ../
-#
-# defaults:
-#   run:
-#     working-directory: nginx
-
 jobs:
   lint:
     name: Lint
@@ -20,8 +13,6 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
-        # with:
-        #   path: nginx
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
@@ -54,8 +45,6 @@ jobs:
     steps:
       - name: Check out the codebase.
         uses: actions/checkout@v2
-        # with:
-        #   path: "nginx"
 
       - name: Set up Python 3.
         uses: actions/setup-python@v2
